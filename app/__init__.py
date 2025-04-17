@@ -1,5 +1,4 @@
 from flask import Flask
-
 from .maintenance import maintenance
 from .profile import profile
 from .config import Config
@@ -15,7 +14,7 @@ def create_app():
     # Initialize Firebase
     initialize_firebase()
     get_id_token(
-        custom_token=generate_custom_token(email="test@example.com"),
+        custom_token=generate_custom_token(email="test3@example.com"),
     )
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
