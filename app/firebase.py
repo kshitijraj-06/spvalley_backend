@@ -9,22 +9,27 @@ def initialize_firebase():
     firebase_admin.initialize_app(cred)
 
 def generate_custom_token(email):
-    """Generate a custom token for a user."""
     user = auth.get_user_by_email(email)
-    return auth.create_custom_token(user.uid).decode("utf-8")
+    token = auth.create_custom_token(user.uid)
+    return token.decode("utf-8")  # 🔥 Decode right here
+
 
 
 def get_id_token(custom_token):
     """Exchange a custom token for an ID token."""
     url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key={FIREBASE_API_KEY}"
-    payload = {"token": custom_token, "returnSecureToken": True}
+    payload = {
+        "token": custom_token,
+        "returnSecureToken": True,
+    }
 
     response = requests.post(url, json=payload)
 
     if response.status_code == 200:
         id_token = response.json().get("idToken")
-        print("Generated ID Token:", id_token)  # Print ID Token
+        print("Generated ID Token:", id_token)
         return id_token
     else:
         print("Error:", response.json())
+        print("Custom Token:", custom_token)
         return None

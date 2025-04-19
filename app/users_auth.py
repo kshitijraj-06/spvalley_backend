@@ -1,4 +1,6 @@
 from flask import Flask, Blueprint, request, jsonify
+
+from . import get_id_token, generate_custom_token
 from .database import get_db_connection
 
 
@@ -18,7 +20,7 @@ def get_users():
             {"id" : user[0], "email" : user[1], "displayName" : user[2], "block_number" : user[3], "flat_number" : user[4], "parking_number" : user[5]} for user in users
         ]
 
-        return jsonify({"status": 200, "message": "Users retrieved successfully", "users": users_list}), 200
+        return jsonify({"status": 200, "message": "Users retrieved successfully", "users": users_list,}), 200
 
     except Exception as e:
         return jsonify({"status": 500, "message": "Error retrieving users", "error": str(e)}), 500
